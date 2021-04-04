@@ -1,5 +1,6 @@
 import scipy.io
 import numpy as np
+import matplotlib.pyplot as plt
 
 def softmax_gradient(X, Y_true, Y_predicted):
     M = X.shape[1]
@@ -85,7 +86,7 @@ class sequential_model:
 model = sequential_model(
         linear_layer(2, 2),
         softmax_layer()
-        )
+    )
 
 mat = scipy.io.loadmat('SwissRollData.mat')
 X = mat['Yt']
@@ -99,4 +100,17 @@ print(Y_predicted.T)
 
 print(cross_entropy_loss(Y, Y_predicted))
 
-print(SGD(model, X, Y, 100))
+loss,accuracy = SGD(model, X, Y, 1000)
+
+#fig = plt.figure(figsize=(10,6))
+
+fig, axs = plt.subplots(2)
+axs[0].plot(loss)
+#ax.plot(accuracy)
+axs[0].set_ylabel('loss')
+
+axs[1].plot(accuracy)
+#ax.plot(accuracy)
+axs[1].set_ylabel('accuracy')
+
+plt.show()
